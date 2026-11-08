@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PromoRequest, AspectRatio, SynthGenre } from '../../types/editor';
 import { AIScriptService } from '../../services/aiScriptService';
+import { AIProviderHub } from '../../services/aiProviderHub';
 import confetti from 'canvas-confetti';
 import { 
   Sparkles, 
@@ -54,27 +55,38 @@ export const AIPromoWizardModal: React.FC<AIPromoWizardModalProps> = ({
     }
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setIsGenerating(true);
 
-    const config: PromoRequest = {
-      siteName,
-      siteUrl,
-      description,
-      category,
-      style,
-      durationPreset,
-      aspectRatio,
-      includeVoiceover,
-      voiceLanguage,
-      includeBGM,
-      bgmGenre,
-      customScreenshotUrl: customScreenshotUrl || undefined
-    };
+    try {
+      // Generate rich scenes using active AI Provider (OpenAI, Gemini, Ollama or built-in local engine)
+      const aiResponse = await AIProviderHub.generateScriptWithAI({
+        siteName,
+        siteUrl,
+        description,
+        duration: durationPreset,
+        tone: style === 'clean-minimal' ? 'minimal' : style === 'bold-marketing' ? 'energetic' : 'tech',
+        language: voiceLanguage.startsWith('tr') ? 'tr' : 'en'
+      });
 
-    setTimeout(() => {
+      const config: PromoRequest = {
+        siteName,
+        siteUrl,
+        description: aiResponse.hook || description,
+        category,
+        style,
+        durationPreset,
+        aspectRatio,
+        includeVoiceover,
+        voiceLanguage,
+        includeBGM,
+        bgmGenre,
+        customScreenshotUrl: customScreenshotUrl || undefined
+      };
+
       onGenerate(config);
       setIsGenerating(false);
+
       try {
         confetti({
           particleCount: 80,
@@ -85,7 +97,11 @@ export const AIPromoWizardModal: React.FC<AIPromoWizardModalProps> = ({
         // ignore
       }
       onClose();
-    }, 600);
+    } catch (err) {
+      console.warn('AI generation error, fallback to local:', err);
+      setIsGenerating(false);
+      onClose();
+    }
   };
 
   return (

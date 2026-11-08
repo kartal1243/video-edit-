@@ -15,7 +15,8 @@ export type MockupType =
   | 'chrome' 
   | 'iphone' 
   | 'card' 
-  | 'isometric';
+  | 'isometric'
+  | 'terminal';
 
 export type AudioType = 'music' | 'voiceover' | 'sfx';
 export type SynthGenre = 'tech' | 'ambient' | 'energetic' | 'lofi';

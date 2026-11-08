@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "name": "SaaS Tanıtım Örneği",
+  "fps": 30,
+  "aspectRatio": "16:9",
+  "duration": 15,
+  "audio": {
+    "bgm": { "genre": "tech", "volume": 0.35 },
+    "voiceover": [
+      { "text": "Sitelerinizi saniyeler içinde tanıtın.", "language": "tr-TR" }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "duration": 5,
+      "elements": [
+        {
+          "id": "hook",
+          "type": "text",
+          "text": "Eski Yöntemlere Son! ⚡",
+          "fontSize": 38,
+          "color": "#ffffff",
+          "animation": "kinetic-pop",
+          "x": 50,
+          "y": 40
+        }
+      ]
+    },
+    {
+      "id": "scene-2",
+      "duration": 10,
+      "elements": [
+        {
+          "id": "mockup",
+          "type": "mockup",
+          "mockupType": "safari",
+          "url": "https://yoursite.com",
+          "theme": "dark",
+          "x": 50,
+          "y": 50
+        }
+      ]
+    }
+  ]
+}

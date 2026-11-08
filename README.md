@@ -1,7 +1,7 @@
 # 🎬 ClipForge AI
 
-> **Açık Kaynak Yapay Zeka Destekli Video Editörü ve Web Siteleri İçin Tanıtım Videosu Oluşturucu**  
-> *Next-generation open-source AI video editor and website promotional video studio.*
+> **Açık Kaynak Kod Odaklı Video Editörü, Yapay Zeka Sağlayıcı Merkezi ve Genişletilebilir Eklenti Sistemi**  
+> *Next-generation open-source programmatic code-to-video editor, multi-AI connector hub, and extensible video editing skill ecosystem.*
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -11,75 +11,142 @@
 
 ---
 
-## 🌟 Öne Çıkan Özellikler (Key Features)
+## 🌟 Ana Yetenekler & Mimari (Core Systems)
 
-### 🚀 1. 1-Tıkla AI Web Sitesi Tanıtım Videosu Üretici
-- **Otomatik Senaryo ve Storyboard**: Web sitenizin adını ve vaadini girin; yapay zeka 5 aşamalı kanca (Hook), vitrin reveal, öne çıkan özellikler, sosyal kanıt ve CTA (Call to Action) sahnelerini saniyeler içinde oluştursun.
-- **3D Animasyonlu Tarayıcı & Cihaz Mockup'ları**: Safari macOS penceresi, URL çubuğu, gerçek zamanlı dalgalanma efekti ve Ken Burns sinematik kamera yaklaşımı.
-- **Doğal AI Seslendirme**: Web Speech API ile Türkçe ve İngilizce senkronize seslendirme.
-- **Prosedürel Fon Müziği**: Web Audio API ile sıfır telif hakkı riski olan dinamik Modern Tech, Enerjik, Ambient ve Lo-Fi synth ritimleri (konuşma esnasında otomatik ses kısma / audio ducking desteğiyle).
+ClipForge AI, klasik timeline video editörlerini modern yazılım geliştirme araçlarıyla birleştirir. Sürekli geliştirilebilir, modüler ve geleceğin yapay zeka servislerine bağlanabilir şekilde tasarlanmıştır:
 
-### 🎬 2. Profesyonel Çok Kanallı Zaman Çizelgesi (Multi-Track Timeline)
-- **4 Bağımsız Kanal**: Görsel & Mockup, Metin & Başlıklar, Rozet & İstatistikler, Ses & Müzik.
-- **Hassas Kontroller**: Oynatma kafası (playhead) ile anlık gezinme, `S` tuşu ile klibi istediğiniz milisaniyeden bölme (split/cut), çoğaltma ve silme.
-- **Zaman Ölçeği (Zoom)**: 20px ile 120px arasında zaman çizelgesini genişletip daraltabilme.
-
-### 🎨 3. Çoklu Format & En Boy Oranı Desteği
-- 🖥️ **16:9 Yatay**: Web siteleri, YouTube, masaüstü landing page kahraman videoları.
-- 📱 **9:16 Dikey**: Instagram Reels, TikTok, YouTube Shorts viral formatları.
-- 🔲 **1:1 Kare**: LinkedIn ve Instagram akış paylaşımları.
-
-### 💾 4. Tarayıcı İçi ve Sunucu Destekli Render (Export)
-- **İstemci Tarafı (Client-Side) Render**: WebCodecs & `MediaRecorder` ile doğrudan tarayıcınızda 1080p Full HD WebM/MP4 render alma.
-- **Anlık Kapak Resmi (Thumbnail)**: Tek tıkla o anki karenin yüksek kaliteli PNG görselini indirme.
-- **FFmpeg Sunucu Entegrasyonu**: Yerel `/usr/bin/ffmpeg` komut satırı destekli Node.js Express backend (`server/index.js`).
-
----
-
-## 🛠️ Mimari ve Klasör Yapısı
-
-```bash
-video-edit-/
-├── src/
-│   ├── types/
-│   │   └── editor.ts               # Video, klip, kanal ve şablon tipleri
-│   ├── services/
-│   │   ├── aiScriptService.ts      # Yapay zeka senaryo ve sahne üretim motoru
-│   │   ├── speechService.ts        # Web Speech ses sentezleme motoru
-│   │   ├── audioSynth.ts           # Web Audio API prosedürel synth müzik ve SFX
-│   │   └── exportEngine.ts         # Canvas MediaRecorder 1080p video render motoru
-│   ├── components/
-│   │   ├── Header/                 # Üst gezinme, en boy oranı ve butonlar
-│   │   ├── Canvas/                 # Gerçek zamanlı yüksek performanslı canvas önizleme
-│   │   ├── Timeline/               # Çok kanallı zaman çizelgesi, kesme/bölme araçları
-│   │   ├── Inspector/              # Sağ klip özellikleri paneli (yazı, efekt, mockup)
-│   │   ├── LeftSidebar/            # AI araçları, medya yükleme, metin ve müzik sekmeleri
-│   │   └── Modals/
-│   │       ├── AIPromoWizardModal.tsx  # 1-Tıkla tanıtım videosu sihirbazı
-│   │       ├── ExportModal.tsx         # Video render ve çözünürlük modalı
-│   │       └── TemplatePickerModal.tsx # Hazır SaaS ve e-ticaret şablonları
-│   ├── constants/
-│   │   └── templates.ts            # Hazır şablon koleksiyonu
-│   ├── utils/
-│   │   └── canvasRenderers.ts      # Safari mockupları, kinetic yazı ve efekt çizimleri
-│   ├── App.tsx                     # Ana editör orkestrasyonu ve durum yönetimi
-│   └── index.css                   # Stüdyo tasarım sistemi ve CSS değişkenleri
-├── server/
-│   └── index.js                    # FFmpeg ve AI script Express backend API'si
-├── package.json
-└── vite.config.ts
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                          ClipForge AI Studio                           │
+├──────────────────┬───────────────────────┬─────────────────────────────┤
+│  🎨 Visual Studio│ 💻 Code Playground    │ 🤖 Multi-AI Provider Hub    │
+│  - Timeline Kurgu│ - Remotion-style DSL  │ - OpenAI (GPT-4o & Sora)    │
+│  - Canvas Viewport│ - JSON/JS Compositions│ - Google Gemini 1.5 Flash   │
+│  - Saniye/Kare Kes│ - Çift Yönlü Senkron  │ - Anthropic Claude 3.5      │
+│  - Multi-track   │ - Canlı Hata Denetimi │ - Ollama (Yerel Gizli AI)   │
+│                  │                       │ - ElevenLabs TTS            │
+├──────────────────┴───────────────────────┴─────────────────────────────┤
+│                    🧩 Extensible Plugin / Skill Engine                 │
+│  - Viral Karaoke Subtitle Motoru (Alex Hormozi / MrBeast Style)        │
+│  - Sinematik Işık & Parçacık (Particles) Filtresi                      │
+│  - Gelişmiş Safari, iPhone 16 Pro & Terminal CLI Mockup Vitrinleri     │
+│  - Prosedürel Web Audio Synthesizer (Telif Hakkı Sıfır BGM & SFX)      │
+├────────────────────────────────────────────────────────────────────────┤
+│                    💾 Çift Modlu Render & Export                       │
+│  - İstemci Tarafı WebCodecs / MediaRecorder (1080p WebM/MP4)           │
+│  - Headless Node.js CLI & FFmpeg Motoru (node cli/render.js)           │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🚀 Hızlı Başlangıç (Quickstart)
+### 💻 1. Kodla Video Yapma (Code-to-Video Engine)
+Videolarınızı declarative (bildirimsel) kod yazarak oluşturabilirsiniz:
+- **Canlı Playground**: Stüdyo içindeki "Kodla Video" butonuna basarak anında kompozisyon kodunu çalıştırabilir, zaman çizelgesindeki videoları koda aktarabilir ya da kodu zaman çizelgesine dönüştürebilirsiniz.
+- **Hazır Şablonlar**: SaaS Landing Promo, Terminal Developer Vitrini, Viral Dikey Reels (9:16).
 
-### Gereksinimler
-- **Node.js** >= 18
-- **npm**, **pnpm** veya **yarn**
-- (Opsiyonel) **FFmpeg** (Sunucu tarafı render için)
+```javascript
+// Örnek: 15 Saniyelik Tanıtım Kompozisyonu
+export default {
+  version: "1.0",
+  name: "Geleceğin SaaS Platformu",
+  fps: 30,
+  aspectRatio: "16:9",
+  duration: 15,
+  audio: {
+    bgm: { genre: "tech", volume: 0.35 },
+    voiceover: [
+      { text: "Sitelerinizi saniyeler içinde otomatik tanıtın.", language: "tr-TR" }
+    ]
+  },
+  scenes: [
+    {
+      id: "scene-1",
+      duration: 3,
+      elements: [
+        {
+          id: "hook-text",
+          type: "text",
+          text: "Eski Yöntemleri Unutun! ⚡",
+          fontSize: 38,
+          color: "#ffffff",
+          animation: "kinetic-pop",
+          x: 50,
+          y: 45
+        }
+      ]
+    },
+    {
+      id: "scene-2",
+      duration: 12,
+      elements: [
+        {
+          id: "browser-mockup",
+          type: "mockup",
+          mockupType: "safari",
+          url: "https://clipforge.ai",
+          theme: "dark",
+          x: 50,
+          y: 50
+        }
+      ]
+    }
+  ]
+};
+```
 
-### 1. Projeyi Klonlayın
+---
+
+### 🤖 2. Harici Yapay Zeka Bağlantıları (AI Hub)
+ClipForge AI, tek bir modele bağımlı değildir. İstediğiniz yapay zekaya tek tıkla bağlanabilirsiniz:
+- **OpenAI**: GPT-4o ile ultra yaratıcı senaryolar, OpenAI TTS ve Sora video kancaları.
+- **Google Gemini**: Gemini 1.5 Flash ve Pro ile yüksek hızlı multimodal analiz.
+- **Anthropic Claude**: Claude 3.5 Sonnet ile edebi ve dönüşüm odaklı kanca metinleri.
+- **Ollama**: %100 çevrimdışı, yerel ve gizli çalışan açık kaynak LLM'ler (`http://localhost:11434`).
+- **ElevenLabs**: İnsan doğallığında klonlanmış ve ultra gerçekçi seslendirmeler.
+- **Dahili Yerel Motor**: Hiçbir API anahtarı olmadan sıfır maliyetle anında çalışan dahili kural motoru.
+
+---
+
+### 🧩 3. Genişletilebilir Eklenti & Beceri Mimarisi (Plugin SDK)
+Kendi video efektinizi, animasyonunuzu veya geçişinizi yazıp sisteme kolayca kaydedebilirsiniz:
+
+```typescript
+import { ClipForgePlugin, FrameContext } from './types/plugin';
+
+export const myCustomPlugin: ClipForgePlugin = {
+  id: 'my-custom-effect',
+  name: 'Özel Işık Efekti',
+  version: '1.0.0',
+  description: 'Videoların üzerine dinamik parıltı ekler.',
+  category: 'filter',
+  author: 'Geliştirici',
+  enabled: true,
+
+  afterRenderFrame: ({ ctx, width, height, currentTime }) => {
+    // Her karede çalışan yüksek hızlı Canvas 2D çizimi
+  }
+};
+```
+
+---
+
+### 🖥️ 4. Komut Satırından Video Üretimi (Headless CLI)
+Geliştiriciler ve sunucular için terminalden anında video render alabilen CLI motoru:
+
+```bash
+# Hızlı test videosu üret (FFmpeg ile)
+npm run cli -- --duration 5 --output tanitim.mp4
+
+# Özel kompozisyon JSON dosyası ile render alma
+node cli/render.js --spec examples/saas-promo.json --output cikti.mp4 --fps 60
+```
+
+---
+
+## 🚀 Kurulum & Çalıştırma (Getting Started)
+
+### 1. Depoyu Klonlayın
 ```bash
 git clone https://github.com/kartal1243/video-edit-.git
 cd video-edit-
@@ -90,26 +157,25 @@ cd video-edit-
 npm install
 ```
 
-### 3. Geliştirici Sunucusunu Başlatın
+### 3. Geliştirici Arayüzünü Başlatın
 ```bash
 npm run dev
 ```
-Uygulama otomatik olarak `http://localhost:5173` adresinde açılacaktır.
+Tarayıcınızda `http://localhost:5173` adresine giderek stüdyoyu kullanmaya başlayın.
 
-### 4. (Opsiyonel) FFmpeg Sunucusunu Başlatın
+### 4. (Opsiyonel) Express Arka Plan Servisini Başlatın
 ```bash
 npm run server
 ```
-Arka plan API'si `http://localhost:3001` portunda çalışacaktır.
 
 ---
 
-## ⌨️ Klavye Kısayolları
+## ⌨️ Kısayol Tuşları (Shortcuts)
 
 | Kısayol | İşlev |
 | :--- | :--- |
-| `Boşluk (Space)` | Oynat / Durdur |
-| `S` | Seçili klibi oynatma kafasının olduğu yerden kes (Split) |
+| `Boşluk (Space)` | Önizlemeyi Oynat / Durdur |
+| `S` | Klibi oynatma imlecinin olduğu yerden böl (Split/Cut) |
 | `Delete` / `Backspace` | Seçili klibi sil |
 | `Ctrl + D` | Seçili klibi çoğalt |
 
@@ -117,4 +183,4 @@ Arka plan API'si `http://localhost:3001` portunda çalışacaktır.
 
 ## 📄 Lisans (License)
 
-Bu proje [MIT Lisansı](LICENSE) kapsamında açık kaynak olarak sunulmuştur. Dilediğiniz gibi geliştirebilir, kendi siteleriniz veya projeleriniz için kullanabilirsiniz.
+Bu proje [MIT Lisansı](LICENSE) kapsamında açık kaynak olarak yayımlanmıştır. Dilediğiniz gibi ticari veya kişisel projelerinizde kullanabilir, forklayabilir ve katkıda bulunabilirsiniz.

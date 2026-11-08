@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Project, Clip, Track, AspectRatio, PromoRequest } from './types/editor';
 import { AIScriptService } from './services/aiScriptService';
 import { AudioSynthService } from './services/audioSynth';
@@ -11,8 +11,12 @@ import { LeftSidebar } from './components/LeftSidebar/LeftSidebar';
 import { AIPromoWizardModal } from './components/Modals/AIPromoWizardModal';
 import { ExportModal } from './components/Modals/ExportModal';
 import { TemplatePickerModal } from './components/Modals/TemplatePickerModal';
+import { CodePlaygroundModal } from './components/CodePlayground/CodePlaygroundModal';
+import { AIHubModal } from './components/AIHub/AIHubModal';
+import { PluginManagerModal } from './components/PluginManager/PluginManagerModal';
 import { PRESET_TEMPLATES } from './constants/templates';
 import { ExportEngine } from './services/exportEngine';
+import { initializePlugins } from './plugins';
 
 const DEFAULT_TRACKS: Track[] = [
   { id: 'track-visuals', name: 'Görsel & Mockup', type: 'video' },
@@ -38,6 +42,9 @@ export const App: React.FC = () => {
   const [isAIWizardOpen, setIsAIWizardOpen] = useState<boolean>(false);
   const [isExportOpen, setIsExportOpen] = useState<boolean>(false);
   const [isTemplatePickerOpen, setIsTemplatePickerOpen] = useState<boolean>(false);
+  const [isCodePlaygroundOpen, setIsCodePlaygroundOpen] = useState<boolean>(false);
+  const [isAIHubOpen, setIsAIHubOpen] = useState<boolean>(false);
+  const [isPluginManagerOpen, setIsPluginManagerOpen] = useState<boolean>(false);
 
   // References & Caches
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -46,8 +53,9 @@ export const App: React.FC = () => {
   const lastTimeRef = useRef<number>(0);
   const activeVoiceoverRef = useRef<string | null>(null);
 
-  // Initialize with the SaaS default template
+  // Initialize plugins & load default template
   useEffect(() => {
+    initializePlugins();
     const defaultTemplate = PRESET_TEMPLATES[0];
     loadPromoFromConfig(defaultTemplate.config);
   }, []);
@@ -148,7 +156,6 @@ export const App: React.FC = () => {
   // Keyboard Shortcuts (Space to play/pause, S to split, Delete to remove)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input
       if (
         document.activeElement?.tagName === 'INPUT' ||
         document.activeElement?.tagName === 'TEXTAREA' ||
@@ -305,6 +312,22 @@ export const App: React.FC = () => {
     }
   };
 
+  // Apply programmatic composition from CodePlayground
+  const handleApplyCode = (
+    newClips: Clip[],
+    newDuration: number,
+    newRatio: AspectRatio,
+    newName: string
+  ) => {
+    setClips(newClips);
+    setDuration(newDuration);
+    setAspectRatio(newRatio);
+    setProjectName(newName);
+    setCurrentTime(0);
+    setIsPlaying(false);
+    setSelectedClipId(null);
+  };
+
   const selectedClip = clips.find((c) => c.id === selectedClipId) || null;
 
   return (
@@ -317,6 +340,9 @@ export const App: React.FC = () => {
         onAspectRatioChange={setAspectRatio}
         onOpenAIWizard={() => setIsAIWizardOpen(true)}
         onOpenTemplates={() => setIsTemplatePickerOpen(true)}
+        onOpenCodePlayground={() => setIsCodePlaygroundOpen(true)}
+        onOpenAIHub={() => setIsAIHubOpen(true)}
+        onOpenPluginManager={() => setIsPluginManagerOpen(true)}
         onCaptureThumbnail={() => {
           if (canvasRef.current) {
             ExportEngine.exportThumbnail(
@@ -410,6 +436,26 @@ export const App: React.FC = () => {
         isOpen={isTemplatePickerOpen}
         onClose={() => setIsTemplatePickerOpen(false)}
         onSelectTemplate={loadPromoFromConfig}
+      />
+
+      <CodePlaygroundModal
+        isOpen={isCodePlaygroundOpen}
+        onClose={() => setIsCodePlaygroundOpen(false)}
+        clips={clips}
+        duration={duration}
+        aspectRatio={aspectRatio}
+        projectName={projectName}
+        onApplyCode={handleApplyCode}
+      />
+
+      <AIHubModal
+        isOpen={isAIHubOpen}
+        onClose={() => setIsAIHubOpen(false)}
+      />
+
+      <PluginManagerModal
+        isOpen={isPluginManagerOpen}
+        onClose={() => setIsPluginManagerOpen(false)}
       />
     </div>
   );

@@ -1,4 +1,6 @@
 import { Clip, AspectRatio } from '../types/editor';
+import { PluginRegistry } from '../services/pluginRegistry';
+import { FrameContext } from '../types/plugin';
 
 export class CanvasRenderer {
   /**
@@ -32,8 +34,27 @@ export class CanvasRenderer {
       .filter(c => currentTime >= c.startTime && currentTime <= (c.startTime + c.duration))
       .sort((a, b) => a.zIndex - b.zIndex);
 
+    const frameContext: FrameContext = {
+      ctx,
+      width,
+      height,
+      currentTime,
+      duration: clips.reduce((acc, c) => Math.max(acc, c.startTime + c.duration), 15),
+      fps: 30,
+      aspectRatio,
+      activeClips
+    };
+
+    // Plugin Hook: Before Render
+    PluginRegistry.runBeforeRender(frameContext);
+
     // 5. Draw active clips
     for (const clip of activeClips) {
+      // Check if custom plugin handles this element
+      if (PluginRegistry.tryCustomDraw(clip, frameContext)) {
+        continue;
+      }
+
       const clipProgress = (currentTime - clip.startTime) / clip.duration;
       ctx.save();
 
@@ -59,6 +80,9 @@ export class CanvasRenderer {
 
       ctx.restore();
     }
+
+    // Plugin Hook: After Render
+    PluginRegistry.runAfterRender(frameContext);
 
     // 6. Cinematic subtle vignette
     this.drawVignette(ctx, width, height);

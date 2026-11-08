@@ -8,7 +8,10 @@ import {
   Tv, 
   Smartphone, 
   Square,
-  Video
+  Video,
+  Code2,
+  Bot,
+  Puzzle
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -20,6 +23,9 @@ interface HeaderProps {
   onOpenTemplates: () => void;
   onCaptureThumbnail: () => void;
   onOpenExport: () => void;
+  onOpenCodePlayground: () => void;
+  onOpenAIHub: () => void;
+  onOpenPluginManager: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -30,7 +36,10 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAIWizard,
   onOpenTemplates,
   onCaptureThumbnail,
-  onOpenExport
+  onOpenExport,
+  onOpenCodePlayground,
+  onOpenAIHub,
+  onOpenPluginManager
 }) => {
   return (
     <header style={{
@@ -41,7 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: '0 18px',
-      gap: '16px'
+      gap: '12px'
     }}>
       {/* Brand & Title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -76,86 +85,155 @@ export const Header: React.FC<HeaderProps> = ({
             color: 'var(--text-primary)',
             padding: '4px 8px',
             borderRadius: 'var(--radius-sm)',
-            width: '200px'
+            width: '180px'
           }}
           onFocus={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-main)')}
           onBlur={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
         />
       </div>
 
-      {/* Middle: Aspect Ratio Switcher */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: 'var(--bg-main)',
-        padding: '3px',
-        borderRadius: 'var(--radius-md)',
-        border: '1px solid var(--border-subtle)',
-        gap: '2px'
-      }}>
+      {/* Center: Aspect Ratio & Mode Switchers */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {/* Aspect Ratio Switcher */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: 'var(--bg-main)',
+          padding: '3px',
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid var(--border-subtle)',
+          gap: '2px'
+        }}>
+          <button
+            onClick={() => onAspectRatioChange('16:9')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '5px 10px',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: '12px',
+              fontWeight: 600,
+              color: aspectRatio === '16:9' ? '#ffffff' : 'var(--text-muted)',
+              backgroundColor: aspectRatio === '16:9' ? 'var(--bg-surface-elevated)' : 'transparent',
+              transition: 'all 0.15s ease'
+            }}
+            title="16:9 (Yatay - YouTube / Web)"
+          >
+            <Tv size={14} />
+            16:9
+          </button>
+
+          <button
+            onClick={() => onAspectRatioChange('9:16')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '5px 10px',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: '12px',
+              fontWeight: 600,
+              color: aspectRatio === '9:16' ? '#ffffff' : 'var(--text-muted)',
+              backgroundColor: aspectRatio === '9:16' ? 'var(--bg-surface-elevated)' : 'transparent',
+              transition: 'all 0.15s ease'
+            }}
+            title="9:16 (Dikey - Reels / TikTok / Shorts)"
+          >
+            <Smartphone size={14} />
+            9:16
+          </button>
+
+          <button
+            onClick={() => onAspectRatioChange('1:1')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '5px 10px',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: '12px',
+              fontWeight: 600,
+              color: aspectRatio === '1:1' ? '#ffffff' : 'var(--text-muted)',
+              backgroundColor: aspectRatio === '1:1' ? 'var(--bg-surface-elevated)' : 'transparent',
+              transition: 'all 0.15s ease'
+            }}
+            title="1:1 (Kare - Instagram / LinkedIn)"
+          >
+            <Square size={14} />
+            1:1
+          </button>
+        </div>
+
+        {/* Code Playground Trigger */}
         <button
-          onClick={() => onAspectRatioChange('16:9')}
+          onClick={onOpenCodePlayground}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '5px 10px',
-            borderRadius: 'var(--radius-sm)',
+            padding: '6px 12px',
+            borderRadius: 'var(--radius-md)',
             fontSize: '12px',
             fontWeight: 600,
-            color: aspectRatio === '16:9' ? '#ffffff' : 'var(--text-muted)',
-            backgroundColor: aspectRatio === '16:9' ? 'var(--bg-surface-elevated)' : 'transparent',
+            backgroundColor: 'rgba(59, 130, 246, 0.15)',
+            color: '#60a5fa',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
             transition: 'all 0.15s ease'
           }}
-          title="16:9 (Yatay - YouTube / Web)"
+          title="Videoyu JavaScript/JSON kodu ile programlayın"
         >
-          <Tv size={14} />
-          16:9
+          <Code2 size={15} />
+          Kodla Video
         </button>
 
+        {/* AI Hub Trigger */}
         <button
-          onClick={() => onAspectRatioChange('9:16')}
+          onClick={onOpenAIHub}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '5px 10px',
-            borderRadius: 'var(--radius-sm)',
+            padding: '6px 12px',
+            borderRadius: 'var(--radius-md)',
             fontSize: '12px',
             fontWeight: 600,
-            color: aspectRatio === '9:16' ? '#ffffff' : 'var(--text-muted)',
-            backgroundColor: aspectRatio === '9:16' ? 'var(--bg-surface-elevated)' : 'transparent',
+            backgroundColor: 'rgba(16, 185, 129, 0.15)',
+            color: '#34d399',
+            border: '1px solid rgba(16, 185, 129, 0.3)',
             transition: 'all 0.15s ease'
           }}
-          title="9:16 (Dikey - Reels / TikTok / Shorts)"
+          title="OpenAI, Gemini, Claude, ElevenLabs & Ollama bağlantıları"
         >
-          <Smartphone size={14} />
-          9:16
+          <Bot size={15} />
+          AI Hub
         </button>
 
+        {/* Plugin Manager Trigger */}
         <button
-          onClick={() => onAspectRatioChange('1:1')}
+          onClick={onOpenPluginManager}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '5px 10px',
-            borderRadius: 'var(--radius-sm)',
+            padding: '6px 12px',
+            borderRadius: 'var(--radius-md)',
             fontSize: '12px',
             fontWeight: 600,
-            color: aspectRatio === '1:1' ? '#ffffff' : 'var(--text-muted)',
-            backgroundColor: aspectRatio === '1:1' ? 'var(--bg-surface-elevated)' : 'transparent',
+            backgroundColor: 'rgba(236, 72, 153, 0.15)',
+            color: '#f472b6',
+            border: '1px solid rgba(236, 72, 153, 0.3)',
             transition: 'all 0.15s ease'
           }}
-          title="1:1 (Kare - Instagram / LinkedIn)"
+          title="Altyazı, parçacık ve mockup eklentilerini yönetin"
         >
-          <Square size={14} />
-          1:1
+          <Puzzle size={15} />
+          Beceriler
         </button>
       </div>
 
       {/* Right: Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {/* Templates button */}
         <button
           onClick={onOpenTemplates}
@@ -163,19 +241,17 @@ export const Header: React.FC<HeaderProps> = ({
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '7px 12px',
+            padding: '7px 11px',
             borderRadius: 'var(--radius-md)',
-            fontSize: '13px',
+            fontSize: '12px',
             fontWeight: 600,
             backgroundColor: 'var(--bg-surface-elevated)',
             color: 'var(--text-secondary)',
             border: '1px solid var(--border-subtle)',
             transition: 'all 0.15s ease'
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
         >
-          <LayoutTemplate size={15} />
+          <LayoutTemplate size={14} />
           Şablonlar
         </button>
 
@@ -186,9 +262,9 @@ export const Header: React.FC<HeaderProps> = ({
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '7px 12px',
+            padding: '7px 11px',
             borderRadius: 'var(--radius-md)',
-            fontSize: '13px',
+            fontSize: '12px',
             fontWeight: 600,
             backgroundColor: 'var(--bg-surface-elevated)',
             color: 'var(--text-secondary)',
@@ -196,11 +272,9 @@ export const Header: React.FC<HeaderProps> = ({
             transition: 'all 0.15s ease'
           }}
           title="O anki kareyi PNG kapak resmi olarak kaydet"
-          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
         >
-          <Camera size={15} />
-          Kapak Resmi
+          <Camera size={14} />
+          Kapak
         </button>
 
         {/* AI Promo Wizard Button */}
@@ -209,21 +283,19 @@ export const Header: React.FC<HeaderProps> = ({
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '7px',
-            padding: '7px 14px',
+            gap: '6px',
+            padding: '7px 13px',
             borderRadius: 'var(--radius-md)',
-            fontSize: '13px',
+            fontSize: '12px',
             fontWeight: 700,
             background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
             color: '#ffffff',
             boxShadow: '0 2px 10px rgba(37, 99, 235, 0.35)',
             transition: 'all 0.15s ease'
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.92')}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
         >
-          <Sparkles size={16} />
-          AI Site Tanıtımı Üret
+          <Sparkles size={15} />
+          AI Site Tanıtımı
         </button>
 
         {/* Export Video Button */}
@@ -232,21 +304,19 @@ export const Header: React.FC<HeaderProps> = ({
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '7px',
-            padding: '7px 14px',
+            gap: '6px',
+            padding: '7px 13px',
             borderRadius: 'var(--radius-md)',
-            fontSize: '13px',
+            fontSize: '12px',
             fontWeight: 700,
             backgroundColor: 'var(--accent-emerald)',
             color: '#ffffff',
             boxShadow: '0 2px 10px rgba(16, 185, 129, 0.3)',
             transition: 'all 0.15s ease'
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.92')}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
         >
-          <Download size={16} />
-          Videoyu İndir
+          <Download size={15} />
+          İndir
         </button>
       </div>
     </header>
